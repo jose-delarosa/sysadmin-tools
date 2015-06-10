@@ -1,16 +1,20 @@
 #!/usr/bin/env python
 #
-# +--------+---------+--------------+-------------+-----------------+
-# | name   | state   | image        |  ip         | port            |
-# +--------+---------+--------------+-------------+-----------------+
-# | mysshd | running | sshd:centos6 |  172.17.0.9 | 22/tcp -> 49153 |
-# +--------+---------+--------------+-------------+-----------------+
+# +--------+--------------+---------+--------+-------------+------------------+
+# | name   | id           | state   | image  | ip          | port             |
+# +--------+--------------+---------+--------+-------------+------------------+
+# | omsa81 | 54fdd473c961 | running | omsa81 | 172.17.0.35 | 1311/tcp -> 1311 |
+# +--------+--------------+---------+--------+-------------+------------------+
 
 import sys, os, subprocess
 from subprocess import Popen, PIPE, STDOUT
 
 sdir = "/opt/dlr"
-execfile(sdir + "/misc/skel/colors")
+# colors
+red="\033[91m"
+green="\033[92m"
+bold="\033[1m"
+end="\033[0m"
 
 # this list specifies order to print columns
 list = ["name", "id", "state", "cmd", "pid", "ip", "port", "image", "node"]
@@ -292,4 +296,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.06.09 17:36:18 - JD
+# 2015.06.10 10:23:26 - JD

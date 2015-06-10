@@ -1,21 +1,23 @@
 #!/usr/bin/env python
 #
-# +--------+---------+--------------+----------+
-# | image  | tag     | id           | size     |
-# +--------+---------+--------------+----------+
-# | cntlmd | latest  | 0edc3f8d55b0 | 216.1 MB |
-# | mysqld | latest  | 11ff6a67e58c | 481.5 MB |
-# | sshd   | latest  | 392c189d8b01 | 390.7 MB |
-# | centos | centos6 | 510cf09a7986 | 215.8 MB |
-# | fedora | 21      | 834629358fe2 | 250.2 MB |
-# | rhel   | rhel7   | bef54b8f8a2f | 139.6 MB |
-# +--------+---------+--------------+----------+
+# +--------+---------+--------------+----------+----------------+
+# | image  | tag     | id           | size     | created        |
+# +--------+---------+--------------+----------+----------------+
+# | omsa81 | centos7 | 44b61544c820 | 926.2 MB | 39 minutes ago |
+# | omsa81 | centos6 | 443095b08939 | 963.5 MB | 54 minutes ago |
+# | centos | centos6 | b9aeeaeb5e17 | 202.6 MB | 7 weeks ago    |
+# | centos | centos7 | fd44297e2ddb | 215.7 MB | 7 weeks ago    |
+# +--------+---------+--------------+----------+----------------+
 
 import sys, os, subprocess
 from subprocess import Popen, PIPE, STDOUT
 
 sdir = "/opt/dlr"
-execfile(sdir + "/misc/skel/colors")
+# colors
+red="\033[91m"
+green="\033[92m"
+bold="\033[1m"
+end="\033[0m"
 
 # this list specifies order to print columns
 list = ["image", "tag", "id", "size", "created"]
@@ -149,4 +151,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.04.15 10:42:50 - JD
+# 2015.06.10 10:23:28 - JD
