@@ -15,7 +15,6 @@ from subprocess import Popen, PIPE, STDOUT
 sdir = "/opt/dlr"
 # colors
 red="\033[91m"
-green="\033[92m"
 bold="\033[1m"
 end="\033[0m"
 
@@ -102,13 +101,7 @@ def printtitle():
 def printiminfo(b):
    t = ""
    for a in list_prnt:			# go through properties
-      if str(a) == "image":
-         if "rhel" in str(b[a]): s = "| " + red + str(b[a]) + end
-         elif "ubuntu" in str(b[a]): s = "| " + purple + str(b[a]) + end
-         elif "suse" in str(b[a]): s = "| " + green + str(b[a]) + end
-         else: s = "| " + str(b[a])
-      else:
-         s = "| " + str(b[a])
+      s = "| " + str(b[a])
       l = col[a]+3 - len("| " + str(b[a]))
       for x in range(0, l):
          s = s + " "
@@ -151,4 +144,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.06.10 10:23:28 - JD
+# 2015.06.12 13:37:31 - JD

@@ -248,12 +248,7 @@ def printtitle():
 def printcoinfo(b):
    t = ""
    for a in list_prnt:			# go through properties
-      if str(a) == "image":
-         if "rhel" in str(b[a]): s = "| " + red + str(b[a]) + end
-         elif "ubuntu" in str(b[a]): s = "| " + purple + str(b[a]) + end
-         elif "suse" in str(b[a]): s = "| " + green + str(b[a]) + end
-         else: s = "| " + str(b[a])
-      elif str(a) == "state":
+      if str(a) == "state":
          if str(b[a]) == "running": s = "| " + green + str(b[a]) + end
          else: s = "| " + red + str(b[a]) + end
       else:
@@ -296,4 +291,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.06.10 10:23:26 - JD
+# 2015.06.12 13:37:36 - JD
