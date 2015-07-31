@@ -9,7 +9,6 @@
 import sys, os, subprocess
 from subprocess import Popen, PIPE, STDOUT
 
-sdir = "/opt/dlr"
 # colors
 red="\033[91m"
 green="\033[92m"
@@ -18,9 +17,9 @@ end="\033[0m"
 
 # this list specifies order to print columns
 list = ["name", "id", "state", "cmd", "pid", "ip", "port", "image", "node"]
-list_prnt = ["name", "id", "state", "image", "ip", "port"]
+list_prnt = ["name", "state", "image", "ip", "port"]
 col = {}
-for l in list: col[l] = 5		# set minimum column width
+for l in list: col[l] = len(l)		# minimum column width
 
 def die(msg):
    print >>sys.stderr, msg
@@ -291,4 +290,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.06.12 13:37:36 - JD
+# 2015.07.26 22:44:33 - JD

@@ -4,7 +4,6 @@
 # | image  | tag     | id           | size     | created        |
 # +--------+---------+--------------+----------+----------------+
 # | omsa81 | centos7 | 44b61544c820 | 926.2 MB | 39 minutes ago |
-# | omsa81 | centos6 | 443095b08939 | 963.5 MB | 54 minutes ago |
 # | centos | centos6 | b9aeeaeb5e17 | 202.6 MB | 7 weeks ago    |
 # | centos | centos7 | fd44297e2ddb | 215.7 MB | 7 weeks ago    |
 # +--------+---------+--------------+----------+----------------+
@@ -12,7 +11,6 @@
 import sys, os, subprocess
 from subprocess import Popen, PIPE, STDOUT
 
-sdir = "/opt/dlr"
 # colors
 red="\033[91m"
 bold="\033[1m"
@@ -20,10 +18,8 @@ end="\033[0m"
 
 # this list specifies order to print columns
 list = ["image", "tag", "id", "size", "created"]
-list_prnt = ["image", "tag", "id", "size", "created"]
 col = {}
-for l in list:				# set minimum width to 3
-   col[l] = 3
+for l in list: col[l] = len(l)          # minimum column width
 
 def die(msg):
    print >>sys.stderr, msg
@@ -79,14 +75,14 @@ def getim(im, line):
    if len(im["created"]) > col["created"]: col["created"] = len(im["created"])
    return im
 
-def printheader():
+def printheader(list_prnt):
    line = "+"
    for a in list_prnt:			# go through container properties
       for x in range(0, col[a]+2): line = line + "-"
       line = line + "+"
    return line
 
-def printtitle():
+def printtitle(list_prnt):
    t = ""
    for a in list_prnt:			# go through container properties
       s = "| " + bold + a + end
@@ -98,7 +94,7 @@ def printtitle():
    print t
    return
 
-def printiminfo(b):
+def printiminfo(list_prnt,b):
    t = ""
    for a in list_prnt:			# go through properties
       s = "| " + str(b[a])
@@ -111,10 +107,14 @@ def printiminfo(b):
    return
 
 def main():
+   list_prnt = ["image", "tag", "id", "size", "created"]
    imall = []
    if checkreqs() == False:
       print red + "System check failed, please correct and try again." + end
       sys.exit(1)
+
+   if len(sys.argv) > 1:
+      if sys.argv[1] == "-s": list_prnt = ["image", "tag", "id"]
 
    s = "docker images"
    try:
@@ -133,15 +133,15 @@ def main():
       print "No container images on this host yet."
       sys.exit(0)
 
-   line = printheader()
+   line = printheader(list_prnt)
    print line
-   printtitle()
+   printtitle(list_prnt)
    print line
    for im in imall:
-      printiminfo(im)
+      printiminfo(list_prnt,im)
    print line
 
 if __name__ == "__main__":
    main()
 
-# 2015.06.12 13:37:31 - JD
+# 2015.07.28 17:31:14 - JD
