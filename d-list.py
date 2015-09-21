@@ -1,13 +1,18 @@
 #!/usr/bin/env python
 #
-# +--------+--------------+---------+--------+-------------+------------------+
-# | name   | id           | state   | image  | ip          | port             |
-# +--------+--------------+---------+--------+-------------+------------------+
-# | omsa81 | 54fdd473c961 | running | omsa81 | 172.17.0.35 | 1311/tcp -> 1311 |
-# +--------+--------------+---------+--------+-------------+------------------+
+# Print container information in a nice format, using mostly 'docker inspect'.
+#
+# +----------+---------+--------------+-------------+
+# | name     | state   | image        | ip          |
+# +----------+---------+--------------+-------------+
+# | registry | running | registry:2.0 | 172.17.0.12 |
+# | smb      | running | samba        | 172.17.0.7  |
+# | httpd1   | running | httpd-home   | 172.17.0.2  |
+# +----------+---------+--------------+-------------+
 
 import sys, os, subprocess
 from subprocess import Popen, PIPE, STDOUT
+from optparse import OptionParser
 
 # colors
 red="\033[91m"
@@ -16,14 +21,19 @@ bold="\033[1m"
 end="\033[0m"
 
 # this list specifies order to print columns
-list = ["name", "id", "state", "cmd", "pid", "ip", "port", "image", "node"]
-list_prnt = ["name", "state", "image", "ip", "port"]
+list = ["name", "id", "state", "cmd", "pid", "ip", "port", "vols", "image", "node"]
+list_prnt = ["name", "state", "image", "ip"]		# default items to print
 col = {}
 for l in list: col[l] = len(l)		# minimum column width
 
 def die(msg):
    print >>sys.stderr, msg
    os._exit(1)
+
+def usage(me):
+   print "Usage: %s [-P] [-v] [-n] [-c] [-p]" % me
+   print "Use -h or --help for additional information."
+   return
 
 def checkreqs():
    # do binaries exist?
@@ -60,7 +70,7 @@ def which(program):
          if is_exe(exe_file): return exe_file
    return None
 
-def getco():
+def getcontainers():
    coids = []
    s = 'docker ps -a'
    try:
@@ -194,6 +204,23 @@ def getports(co):
    if len(port) > col["port"]: col["port"] = len(port)
    return co
 
+def getvols(co):
+   s = "docker inspect -f \'{{.HostConfig.Binds}}\' %s" % co["id"]
+   try:
+      ret = Popen(s, shell=True, stdout=PIPE, stderr=STDOUT)
+      vols = ret.stdout.read().strip().lstrip('[').rstrip(']')
+      data = ret.communicate()[0]
+      if ret.returncode == 1: node = "error"	# capture errors
+      if not vols: vols = "none"
+      if vols == "<no value>": vols = "none"
+   except KeyboardInterrupt:
+      die("Interrupt detected, exiting")
+   except: raise
+
+   co["vols"] = vols
+   if len(vols) > col["vols"]: col["vols"] = len(vols)
+   return co
+
 def getnodes(co):
    s = "docker inspect -f \'{{.Node.Name}}\' %s" % co["id"]
    try:
@@ -266,7 +293,29 @@ def main():
       print red + "System check failed, please correct and try again." + end
       sys.exit(1)
 
-   for coid in getco():
+   # options parsing
+   use = "Usage: %prog [options]\n\
+   Display container information in a nice readable format."
+
+   p = OptionParser(usage=use, description="")
+   p.add_option('-P', action="store_true", dest="ports", help='ports', default=False)
+   p.add_option('-v', action="store_true", dest="vols", help='volumes', default=False)
+   p.add_option('-n', action="store_true", dest="node", help='node', default=False)
+   p.add_option('-c', action="store_true", dest="cmd", help='command', default=False)
+   p.add_option('-p', action="store_true", dest="pid", help='pid', default=False)
+   (opts, args) = p.parse_args()
+   error = False
+
+   # Build out prnt_list
+   # list = ["name", "id", "state", "cmd", "pid", "ip", "port", "vols", "image", "node"]
+   if opts.ports == True: list_prnt.append("port")
+   if opts.vols == True: list_prnt.append("vols")
+   if opts.node == True: list_prnt.append("node")
+   if opts.cmd == True: list_prnt.append("cmd")
+   if opts.pid == True: list_prnt.append("pid")
+
+   # Once you have built prnt_list, iterate through all found containers
+   for coid in getcontainers():
       co = {}
       co["id"] = coid
       co = getstate(co)
@@ -276,6 +325,7 @@ def main():
       co = getcmd(co)
       co = getports(co)
       co = getnodes(co)
+      co = getvols(co)
       coall.append(co)
 
    # printwhale()		# cute, but not needed
@@ -290,4 +340,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.07.26 22:44:33 - JD
+# 2015.08.19 20:49:38 - JD

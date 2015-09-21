@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 #
+# Print Docker image information in a nice format by parsing 'docker images'.
+#
 # +--------+---------+--------------+----------+----------------+
 # | image  | tag     | id           | size     | created        |
 # +--------+---------+--------------+----------+----------------+
@@ -144,4 +146,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.07.28 17:31:14 - JD
+# 2015.08.19 17:39:50 - JD
