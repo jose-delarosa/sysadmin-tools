@@ -22,7 +22,7 @@ end="\033[0m"
 
 # this list specifies order to print columns
 list = ["name", "id", "state", "cmd", "pid", "ip", "port", "vols", "image", "node"]
-list_prnt = ["name", "state", "image", "ip"]		# default items to print
+list_prnt = ["name", "state", "ip", "port" ]		# default items to print
 col = {}
 for l in list: col[l] = len(l)		# minimum column width
 
@@ -115,7 +115,11 @@ def getname(co):
       name = p.stdout.read().strip().split("/")[1]
    except KeyboardInterrupt:
       die("Interrupt detected, exiting")
-   except: raise
+   except:
+      die("Another Docker operation is running...try again in 2 secs...'")
+
+   # In Kubernetes, container names are way long so shorten
+   if len(name) > 36: name = name[0:35] + ".."
 
    co["name"] = name
    if len(name) > col["name"]: col["name"] = len(name)
@@ -129,6 +133,9 @@ def getimage(co):
    except KeyboardInterrupt:
       die("Interrupt detected, exiting")
    except: raise
+
+   # Shorten output of images to make overall output more readable
+   if len(image) > 18: image = image[0:17] + ".."
 
    co["image"] = image
    if len(image) > col["image"]: col["image"] = len(image)
@@ -298,6 +305,8 @@ def main():
    Display container information in a nice readable format."
 
    p = OptionParser(usage=use, description="")
+   p.add_option('-i', action="store_true", dest="image", help='image', default=False)
+   p.add_option('-I', action="store_true", dest="ip", help='ip', default=False)
    p.add_option('-P', action="store_true", dest="ports", help='ports', default=False)
    p.add_option('-v', action="store_true", dest="vols", help='volumes', default=False)
    p.add_option('-n', action="store_true", dest="node", help='node', default=False)
@@ -308,11 +317,12 @@ def main():
 
    # Build out prnt_list
    # list = ["name", "id", "state", "cmd", "pid", "ip", "port", "vols", "image", "node"]
-   if opts.ports == True: list_prnt.append("port")
-   if opts.vols == True: list_prnt.append("vols")
-   if opts.node == True: list_prnt.append("node")
-   if opts.cmd == True: list_prnt.append("cmd")
-   if opts.pid == True: list_prnt.append("pid")
+   if opts.image == True: list_prnt.append("image")
+   if opts.ip == True:    list_prnt.append("ip")
+   if opts.vols == True:  list_prnt.append("vols")
+   if opts.node == True:  list_prnt.append("node")
+   if opts.cmd == True:   list_prnt.append("cmd")
+   if opts.pid == True:   list_prnt.append("pid")
 
    # Once you have built prnt_list, iterate through all found containers
    for coid in getcontainers():
@@ -340,4 +350,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.08.19 20:49:38 - JD
+# 2015.10.09 11:54:21 - JD
