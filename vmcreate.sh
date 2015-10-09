@@ -10,8 +10,8 @@ set +x
 # TODO: Ask if we want raw or qcow2 image
 
 . /opt/dlr/misc/skel/colors
-isodir=/share1/dell/isos
-pooldir=/share1/images
+pooldir=/share3/img
+isodir=/share3/isos
 pooldirname=dir
 
 # My default storage pool names (very original)
@@ -25,7 +25,7 @@ usage() {
    echo "Usage: `basename $0` <vm> <vcpu> <mem> <disk> <pxe|iso|os> [novnc]"
    echo "  mem is in GB"
    echo "  disk is in GB"
-   echo "  os is r511|r66|r71|c66|c71|f22"
+   echo "  os is r511|r67|r71|c67|c71|a71|f22"
    exit
 }
 
@@ -107,16 +107,11 @@ createpool() {
 }
 
 dostorvol() {
-   echo -e "${green}Storage Pools:${end}"
-   pools=`virsh pool-list --details | sed '1,2d'`
-   if [ X"$pools" = "X" ] ; then
-      echo -e "${red}No storage pools found!${end}"
-      echo -n "Create \"directory\" pool in $pooldir? [Y/n]: "
-      read resp
-      case $resp in
-         n ) exit ;;
-         * ) createpool ;;
-      esac
+   pools=`virsh pool-info $pooldirname 1> /dev/null 2>&1`
+   if [ $? = 1 ] ; then
+      echo -e "${red}Pool $pooldirname not found!${end}"
+      echo "Creating..."
+      createpool
    fi 
 
    echo "Select storage pool *type* to use:"
@@ -192,14 +187,17 @@ donetwork() {
    if [ $sel = r511 ] ; then
       osdir="${osroot}/RedHat/RHEL5/5.11/Server/x86_64/os/"
       ks="ks=${osroot}/RedHat/RHEL5/5.11/Server/x86_64/ks-vm.cfg"
-   elif [ $sel = r66 ] ; then
-      osdir="${osroot}/RedHat/RHEL6/6.6/Server/x86_64/os"
-      ks="ks=${osroot}/RedHat/RHEL6/6.6/ks-vm.cfg"
+   elif [ $sel = r67 ] ; then
+      osdir="${osroot}/RedHat/RHEL6/6.7/Server/x86_64/os"
+      ks="ks=${osroot}/RedHat/RHEL6/6.7/ks-vm.cfg"
    elif [ $sel = r71 ] ; then
       osdir="${osroot}/RedHat/RHEL7/7.1/Server/x86_64/os"
-      ks="ks=${osroot}/RedHat/RHEL7/7.1/ks-vm.cfg"
-   elif [ $sel = c66 ] ; then
-      osdir="${osroot}/centos/partners.centos.com/6.6/os/x86_64/"
+      ks="inst.geoloc=0 ks=${osroot}/RedHat/RHEL7/7.1/ks-vm.cfg"
+   elif [ $sel = a71 ] ; then
+      osdir="${osroot}/RedHat/Atomic/7.1/install"
+      ks="inst.geoloc=0 ks=${osroot}/RedHat/Atomic/7.1/ks-vm.cfg"
+   elif [ $sel = c67 ] ; then
+      osdir="${osroot}/centos/partners.centos.com/6.7/os/x86_64/"
       ks="ks=${osroot}/centos/ks-vm6.cfg"
    elif [ $sel = c71 ] ; then
       osdir="${osroot}/centos/partners.centos.com/7.1.1503/os/x86_64/"
@@ -256,7 +254,7 @@ doiso() {
      --graphics ${graph} --cdrom=${iso}
 
      # Example of how to attach an iso during installation
-     # --disk path=/share1/dell/isos/windows/virtio-win-0.1-81.iso,device=cdrom
+     # --disk path=/share3/isos/windows/virtio-win-0.1-81.iso,device=cdrom
 }
 
 # Process args
@@ -280,8 +278,8 @@ mem=${memf/.*}				# convert float to int
 chkbridge				# check there's a bridge to use
 dostorvol				# create storage volume
 
-if [ `hostname -s` = "nuc" ] ; then
-   osroot=http://nuc.dlr.com/pub/Distros
+if [ `hostname -s` = $HSRV ] ; then
+   osroot=http://$HSRV.dlr.com/pub/Distros
 else
    osroot=http://geeko.linuxdev.us.dell.com/pub/Distros
 fi
@@ -295,4 +293,4 @@ else
    donetwork
 fi
 
-# 2015.05.28 13:27:30 - JD
+# 2015.09.08 13:45:48 - JD

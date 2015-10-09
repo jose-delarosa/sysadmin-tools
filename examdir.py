@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Examine directory and print info
 # [dirname] [# of files] [# of dirs] [size]
+# todo: how do I skip hard links?
 
 import sys, os
 ll = 80         		# line length to use
@@ -56,13 +57,15 @@ def examinedir(rootdir, f):
          for dir in dirs:
             dircnt += 1
          for file in files:
-            filcnt += 1
             fp = os.path.join(root, file)
-            try:
-               fs += os.path.getsize(fp)
-            except:
-               # print "Error: %s" % fp
-               errcnt += 1
+            # do only if not a symlink; but what about hard links? :(
+            if not os.path.islink(fp):
+               filcnt += 1
+               try:
+                  fs += os.path.getsize(fp)
+               except:
+                  # print "Error: %s" % fp
+                  errcnt += 1
 
    except KeyboardInterrupt:
       print "Aborted by user."
@@ -112,4 +115,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.01.06 13:59:10 - JD
+# 2015.07.06 22:28:56 - JD

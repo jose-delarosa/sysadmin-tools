@@ -4,8 +4,12 @@
 import sys, os, subprocess, pwd, grp, getpass, time, shutil, re
 from time import strftime
 
-sdir = "/opt/dlr"
-execfile(sdir + "/misc/skel/colors")
+# colors
+red="\033[91m"
+green="\033[92m"
+bold="\033[1m"
+end="\033[0m"
+
 ll = 80                         # line length to use
 
 # Users
@@ -213,4 +217,4 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.02.21 14:48:03 - JD
+# 2015.09.22 08:25:29 - JD
