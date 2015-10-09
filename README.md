@@ -7,28 +7,37 @@ Custom scripts to better display list of Docker images and containers.
 ## Run example
 
 ```bash
-$ d-im-list
-+----------------------+----------+--------------+----------+--------------+
-| image                | tag      | id           | size     | created      |
-+----------------------+----------+--------------+----------+--------------+
-| jdelaros1/dsu        | 15.05.00 | d6e5eee45da8 | 392.7 MB | 11 hours ago |
-| sshd                 | latest   | 9e5fbfb9eb43 | 286.7 MB | 16 hours ago |
-| jdelaros1/openmanage | latest   | 53c24faac39e | 963.4 MB | 16 hours ago |
-| redis                | latest   | 4b7672067154 | 111 MB   | 2 weeks ago  |
-| python               | 2.7      | d833e0b23482 | 747.9 MB | 5 weeks ago  |
-| centos               | centos6  | b9aeeaeb5e17 | 202.6 MB | 7 weeks ago  |
-| centos               | centos7  | fd44297e2ddb | 215.7 MB | 7 weeks ago  |
-+----------------------+----------+--------------+----------+--------------+
+$ docker-image-list.py 
++------------------------------------+---------+--------------+
+| image                              | tag     | id           |
++------------------------------------+---------+--------------+
+| docker.io/nginx                    | latest  | ceab60537ad2 |
+| docker.io/jdelaros1/openmanage     | latest  | 14c9ffaa58cd |
+| docker.io/jdelaros1/ism            | latest  | 842e8d2701a6 |
+| docker.io/registry                 | latest  | 1694982b51a1 |
+| docker.io/haproxy                  | latest  | b225626aa252 |
+| docker.io/python                   | 2.7     | 7a7d87336a33 |
+| docker.io/debian                   | wheezy  | 19de96c112fc |
+| docker.io/centos                   | centos6 | 72703a0520b7 |
+| docker.io/centos                   | centos7 | 0f73ae75014f |
+| docker.io/ubuntu                   | 14.04   | 91e54dfb1179 |
+| docker.io/ubuntu                   | 12.04   | 57bca5139a13 |
+| docker.io/registry                 | 2.0     | 08f78f46653a |
+| docker.io/atcol/docker-registry-ui | latest  | d838355ad903 |
++------------------------------------+---------+--------------+
 ```
 
 ```bash
-$ d-list
-+-------+--------------+----------+-------+------------+----------------+
-| name  | id           | state    | image | ip         | port           |
-+-------+--------------+----------+-------+------------+----------------+
-| httpd | 068bea02ff17 | shut off | httpd | n/a        | n/a ->         |
-| sshd  | 211390df9a33 | running  | sshd  | 172.17.0.1 | 22/tcp -> 2022 |
-+-------+--------------+----------+-------+------------+----------------+
+$ docker-container-list.py
++-------------+----------+------------+------------------+
+| name        | state    | ip         | port             |
++-------------+----------+------------+------------------+
+| registry-ui | shut off | n/a        | n/a ->           |
+| registry    | running  | 172.17.0.3 | 5000/tcp -> 5000 |
+| regdata     | shut off | n/a        | n/a ->           |
+| ism         | running  | 172.17.0.1 | n/a ->           |
+| omsa81      | running  | 172.17.0.2 | 1311/tcp -> 1311 |
++-------------+----------+------------+------------------+
 ```
 
 ## Support
