@@ -1,6 +1,7 @@
 #!/bin/bash
-# Very dum script to enter into it
+# Very simple script that uses to nsenter into it
 
+# Exit if binaries not found, because error is ugly
 bins="docker nsenter"
 for bin in $bins; do
    x=`which $bin 1> /dev/null 2>&1`
@@ -21,5 +22,3 @@ if [ "$pid" = "<no value>" ] ; then
    exit 1
 fi
 nsenter -m -u -n -i -p -t $pid /bin/bash
-
-# 2015.01.21 16:42:01 - JD

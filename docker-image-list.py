@@ -109,7 +109,7 @@ def printiminfo(list_prnt,b):
    return
 
 def main():
-   list_prnt = ["image", "tag", "id"]
+   list_prnt = ["image", "tag", "id", "size"]
    imall = []
    if checkreqs() == False:
       print red + "System check failed, please correct and try again." + end

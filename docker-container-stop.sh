@@ -1,5 +1,5 @@
 #!/bin/bash
-# Stop all containers
+# Stop all running containers. Be careful when using.
 
 # Exit if binary not found, because error is ugly
 x=`which docker 1> /dev/null 2>&1`
@@ -16,4 +16,3 @@ for c in $conts; do
    docker stop ${c}
 done
 
-# 2015.06.17 17:24:02 - JD
