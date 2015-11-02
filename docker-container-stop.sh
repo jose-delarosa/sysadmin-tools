@@ -4,8 +4,8 @@
 # Exit if binary not found, because error is ugly
 x=`which docker 1> /dev/null 2>&1`
 if [ $? -eq 1 ] ; then
-  echo "docker not installed"
-  exit 1
+   echo "docker not installed"
+   exit 1
 fi
 
 # Get a list of *all* containers (running or not)

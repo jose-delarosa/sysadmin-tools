@@ -1,7 +1,5 @@
 #!/bin/bash
-# Remove Docker images. Will not remove if an image is being used.
-
-oflag=0				# override flag
+# Remove Docker images. Will not remove if a container is using the image.
 
 chkreqs() {
    # Exit if binary not found, because error is ugly
@@ -9,12 +7,6 @@ chkreqs() {
    if [ $? -eq 1 ] ; then
       echo "docker not installed"
       exit 1
-   fi
-}
-
-parse() {
-   if [ $# -eq 1 ] ; then
-      [ $1 = "-y" ] && oflag=1
    fi
 }
 
@@ -34,13 +26,11 @@ remove() {
    imgs=`docker images | tail -n +2 | awk '{print $1}'`
 
    for i in $imgs; do
-      # docker rmi $i
       echo "docker rmi $i"
+      docker rmi $i
    done
 }
 
 chkreqs
-parse
 ask
 remove
-

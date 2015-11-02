@@ -1,5 +1,6 @@
 #!/bin/bash
-# Remove Docker containers
+# Remove Docker containers. Only removes containers that are not running.
+# Pass '-f' option to force removal of all containers, including those running.
 
 fflag=0					# 'force' flag
 
@@ -49,5 +50,3 @@ remove() {
 chkreqs
 parse $1
 remove
-
-# 2015.09.10 15:06:38 - JD

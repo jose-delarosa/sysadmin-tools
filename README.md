@@ -8,19 +8,18 @@ Custom scripts to better display list of Docker images and containers.
 
 ```bash
 $ docker-image-list.py 
-+---------------------------------------+---------+--------------+----------+
-| image                                 | tag     | id           | size     |
-+---------------------------------------+---------+--------------+----------+
-| docker.io/nginx                       | latest  | ceab60537ad2 | 132.8 MB |
-| docker.io/jdelaros1/openmanage        | latest  | 14c9ffaa58cd | 923.8 MB |
-| docker.io/jdelaros1/ism               | latest  | 842e8d2701a6 | 442.5 MB |
-| docker.io/registry                    | latest  | 1694982b51a1 | 423.2 MB |
-| docker.io/redis                       | latest  | 2f2578ff984f | 109.2 MB |
-| docker.io/haproxy                     | latest  | b225626aa252 | 97.81 MB |
-| docker.io/debian                      | wheezy  | 19de96c112fc | 84.9 MB  |
-| docker.io/centos                      | centos7 | 0f73ae75014f | 172.3 MB |
-| docker.io/ubuntu                      | 14.04   | 91e54dfb1179 | 188.3 MB |
-+---------------------------------------+---------+--------------+----------+
++--------------------------------+---------+--------------+----------+--------------+
+| image                          | tag     | id           | size     | created      |
++--------------------------------+---------+--------------+----------+--------------+
+| docker.io/ubuntu               | latest  | a5a467fddcb8 | 187.9 MB | 10 days ago  |
+| docker.io/debian               | wheezy  | 3b5671666ac3 | 84.87 MB | 10 days ago  |
+| docker.io/centos               | centos6 | 3bbbf0aca359 | 190.6 MB | 2 weeks ago  |
+| docker.io/nginx                | latest  | ceab60537ad2 | 132.8 MB | 5 weeks ago  |
+| docker.io/jdelaros1/openmanage | latest  | 14c9ffaa58cd | 923.8 MB | 6 weeks ago  |
+| docker.io/jdelaros1/ism        | latest  | 842e8d2701a6 | 442.5 MB | 6 weeks ago  |
+| docker.io/haproxy              | latest  | b225626aa252 | 97.81 MB | 7 weeks ago  |
+| docker.io/ubuntu               | 14.04   | 91e54dfb1179 | 188.3 MB | 10 weeks ago |
++--------------------------------+---------+--------------+----------+--------------+
 
 ```
 
@@ -53,4 +52,4 @@ Options:
 
 ## Support
 
-These tools are provided as-is. Let me know if you have any problems. Enhancements welcomed!
+These tools are provided as-is. Let me know if you have any problems. Enhancements are welcome!

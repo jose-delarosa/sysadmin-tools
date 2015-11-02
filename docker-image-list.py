@@ -109,15 +109,15 @@ def printiminfo(list_prnt,b):
    return
 
 def main():
-   list_prnt = ["image", "tag", "id", "size"]
+   list_prnt = ["image", "tag", "id", "size", "created"]
    imall = []
    if checkreqs() == False:
       print red + "System check failed, please correct and try again." + end
       sys.exit(1)
 
-   if len(sys.argv) > 1:
-      if sys.argv[1] == "-l":
-         list_prnt = ["image", "tag", "id", "size", "created"]
+   #if len(sys.argv) > 1:
+   #   if sys.argv[1] == "-l":		# can customize displayed fields
+   #      list_prnt = ["image", "tag", "id", "size", "created"]
 
    s = "docker images"
    try:
@@ -148,4 +148,3 @@ def main():
 if __name__ == "__main__":
    main()
 
-# 2015.10.09 11:54:10 - JD

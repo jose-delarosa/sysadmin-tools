@@ -1,5 +1,5 @@
 #!/bin/bash
-# Very simple script that uses to nsenter into it
+# Very simple script that uses nsenter to "bash into it".
 
 # Exit if binaries not found, because error is ugly
 bins="docker nsenter"

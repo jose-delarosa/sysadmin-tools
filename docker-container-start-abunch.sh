@@ -1,13 +1,12 @@
 #!/bin/bash
-#
 # Script to start a bunch of containers for demonstration purposes ONLY.
 # TODO: check that $2 is an int
 
 # Exit if binary not found, because error is ugly
 x=`which docker 1> /dev/null 2>&1`
 if [ $? -eq 1 ] ; then
-  echo "docker not installed"
-  exit 1
+   echo "docker not installed"
+   exit 1
 fi
 
 if [ $# -lt 2 ] ; then
@@ -31,5 +30,3 @@ for a in $all; do
 done
 
 echo "Image $im not valid!"
-
-# 2015.02.16 20:24:01 - JD
