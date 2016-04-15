@@ -164,7 +164,7 @@ def getcmd(co):
    return co
 
 def getip(co):
-   s = "docker inspect -f \'{{.NetworkSettings.IPAddress}}\' %s" % co["id"]
+   s = "docker inspect -f \'{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\'  %s" % co["id"]
    try:
       p = Popen(s, shell=True, stdout=PIPE, stderr=STDOUT)
       ip = p.stdout.read().strip()
