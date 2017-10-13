@@ -4,7 +4,7 @@
 # under the terms and conditions of the GNU General Public License,
 # version 2, as published by the Free Software Foundation.
 #
-# Author: Jose De la Rosa <jose_de_la_rosa@dell.com>
+# Author: Jose De la Rosa <jose_delarosa@dell.com>
 #
 # List devices attached to PCIe ports. Shows output as:
 # PCI1: Empty
@@ -39,7 +39,9 @@ checkvers() {
    # scripts don't handle floating numbers, split into major and minor versions
    maj=`$DMIDECODE -V | cut -d"." -f1`
    min=`$DMIDECODE -V | cut -d"." -f2 | cut -d"-" -f1`
-   if [ $maj -ge $majreq ] ; then	# should be true, but check
+   if [ $maj -gt $majreq ] ; then
+      return 0				# ok
+   elif [ $maj -eq $majreq ] ; then
       [ $min -ge $minreq ] && return 0	# ok
    fi
    echo "dmidecode version requirement not met!"
