@@ -98,11 +98,6 @@ def turn_power_on(base_uri, uris_list, creds):
             return {'ret': False, 'msg': "Couldn't get power management URI"}
         data = response['data']
         action_uri = data[key]["#ComputerSystem.Reset"]["target"]
-        #print("URI: %s" % (base_uri + action_uri))
-        #print("user: %s" % creds['user'])
-        #print("password: %s" % creds['pswd'])
-        #print("payload: %s" % payload)
-        #print("headers: %s" % headers)
 
         response = send_post_request(base_uri + action_uri, creds, payload, headers)
         if response['ret'] is False:
