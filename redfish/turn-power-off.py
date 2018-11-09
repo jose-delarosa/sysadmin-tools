@@ -37,6 +37,7 @@ def send_get_request(uri, creds):
     try:
         resp = requests.get(uri, verify=False,
                             auth=(creds['user'], creds['pswd']))
+        data = resp.json()
     except HTTPError as e:
         return {'ret': False, 'msg': "HTTP Error: %s" % e.code}
     except URLError as e:
@@ -44,7 +45,7 @@ def send_get_request(uri, creds):
     # Almost all errors should be caught above, but just in case
     except:
         return {'ret': False, 'msg': "Error"}
-    return {'ret': True, 'data': resp.json()}
+    return {'ret': True, 'data': data}
 
 
 def send_post_request(uri, creds, payload, headers):
