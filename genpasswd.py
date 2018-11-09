@@ -1,13 +1,17 @@
 #!/usr/bin/env python
+# Copyright 2018 Jose Delarosa
 #
-# Copyright (c) 2013, Dell Inc.
-# All rights reserved.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# This program is free software; you can redistribute it and/or modify it
-# under the terms and conditions of the GNU General Public License version 2,
-# as published by the Free Software Foundation.
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
-# Author: Jose De la Rosa <jose_de_la_rosa@dell.com>
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 # Generate random alphanumeric strings that could be used for passwords. These
 # two functions do the exact same thing, it's just a different way of doing it
