@@ -30,7 +30,7 @@ except Exception as e:
     exit(1)
 
 # Customizable variables
-LOG_DIR = "/root/logs/"
+LOG_DIR = "/root/logs/rhs/"
 LOG_FILE = "purge-hosts.log"
 
 # Don't change these variables
@@ -102,7 +102,7 @@ def my_main():
 
     # create log directory if it doesn't exist
     if not os.path.isdir(LOG_DIR):
-        os.mkdir(LOG_DIR)
+        os.makedirs(LOG_DIR)
     fd = open(LOG_DIR + LOG_FILE + dot + tstamp, 'w')  # open file for writing
 
     # Process current time
