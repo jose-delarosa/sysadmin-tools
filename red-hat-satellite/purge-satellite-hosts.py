@@ -119,20 +119,27 @@ def my_main():
             fd.write("%s," % hostname)
 
             # Get last checkin for each server and put in right format
-            checkin = x[u'subscription_facet_attributes'][u'last_checkin']
-            last_checkin = checkin.split()[0] + space + checkin.split()[1]
+            if 'subscription_facet_attributes' in x:
+                checkin = x[u'subscription_facet_attributes'][u'last_checkin']
+                last_checkin = checkin.split()[0] + space + checkin.split()[1]
 
-            '''
-            check if time threshold has been exceeded given days specified
-            ret_value = 0 - threshold not exceeded
-            ret_value = 1 - threshold exceeded
-            '''
-            ret_value = compare_ts(args.days, last_checkin, date, time, fd)
-            if ret_value == 1:
-                fd.write(" Threshold exceeded!\n")
-                remove_host(args.user, args.password, args.sat, args.hostname)
+                '''
+                check if time threshold has been exceeded given days specified
+                ret_value = 0 - threshold not exceeded
+                ret_value = 1 - threshold exceeded
+                '''
+                ret_value = compare_ts(args.days, last_checkin, date, time, fd)
+                if ret_value == 1:
+                    fd.write(" Threshold exceeded!\n")
+                    remove_host(args.user, args.password, args.sat, args.hostname)
+                else:
+                    fd.write(" OK\n")
             else:
-                fd.write(" OK\n")
+                '''
+                This can happen, need to know why, and definitely need to
+                handle it. At least log it.
+                '''
+                fd.write(" Last-check-in entry not found! No action taken.\n")
 
     fd.write("\nHosts purged: %s\n" % hosts_purged)
     fd.close()
