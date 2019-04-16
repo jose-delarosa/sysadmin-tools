@@ -8,7 +8,7 @@ A collection of scripts to demonstrate usage of the Satellite 6 API
 
 This script has been tested and works on:
 
-* Satellite 6.4
+* Satellite v6.4
 
 # Prerequisites
 
@@ -37,7 +37,7 @@ $ purge-satellite-hosts.py -u admin -p password -s satellite.example.com -d 10
 
 # Example Output
 
-Since this script is meant to be run as a cron job, all output is directed to a log file specified by the variableg LOG_DIR and LOG_FILE.
+Since this script is meant to be run as a cron job, all output is directed to a log file specified by the variables `LOG_DIR` and `LOG_FILE`.
 
 Example log file:
 ~~~
