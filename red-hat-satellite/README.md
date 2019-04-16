@@ -13,7 +13,9 @@ This script has been tested and works on:
 # Prerequisites
 
 * Python >= 2.7
-* A login user to Satellite
+* Python >= 3.6
+* Python `requests` module
+* A login ID to Satellite with admin privileges
 
 # How to run your code
 
