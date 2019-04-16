@@ -51,7 +51,7 @@ def get_hosts(user, password, satellite):
 def remove_host(user, password, satellite, host):
     global hosts_purged
     headers = {'content-type': 'application/json'}
-    uri = "https://%s/api/v2/hosts/%s" % (satellite, host)
+    uri = "https://%s/api/hosts/%s" % (satellite, host)
     response = requests.delete(uri, headers=headers, verify=False,
                                auth=(user, password))
     if not response.status_code == 200:
@@ -114,8 +114,8 @@ def my_main():
     fd.write("Client hosts check-in time:\n")
     data = get_hosts(args.user, args.password, args.sat)
     for x in data[u'results']:
-        if not x[u'certname'] == args.sat:
-            hostname = x[u'certname']
+        if not x[u'name'] == args.sat:
+            hostname = x[u'name']
             fd.write("%s," % hostname)
 
             # Get last checkin for each server and put in right format
